@@ -166,12 +166,25 @@ API call cost: ~₹40–160 per week depending on how many queries you track.
 
 ### Bootstrap your first property
 
+Launch Codex from the repo:
+
 ```bash
-python3 skills/aeo-loop/scripts/aeo_loop.py add-property yourdomain.com --brand="Your Brand"
-python3 skills/aeo-loop/scripts/aeo_loop.py bootstrap yourdomain.com
+codex
 ```
 
-Then inside Codex:
+Then inside Codex, three slash commands:
+
+```
+/aeo-loop init
+/aeo-loop add-property yourdomain.com --brand="Your Brand"
+/aeo-loop bootstrap yourdomain.com
+```
+
+`bootstrap` is conversational — Codex looks at your site, proposes
+queries and competitors, you edit / approve, and it runs the baseline
+citation check.
+
+Then once a week:
 
 ```
 /aeo-loop weekly yourdomain.com

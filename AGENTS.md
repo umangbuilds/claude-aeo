@@ -12,11 +12,22 @@ separate branch.
 ```bash
 bash codex/setup-codex.sh
 $EDITOR ~/.config/aeo-loop/keys.toml          # add 2+ LLM keys
-python3 skills/aeo-loop/scripts/aeo_loop.py add-property yourdomain.com --brand="Your Brand"
-python3 skills/aeo-loop/scripts/aeo_loop.py bootstrap yourdomain.com
+codex                                          # launch Codex from the repo
 ```
 
-Then inside Codex CLI (opened in this repo so `AGENTS.md` is loaded):
+Then inside Codex (three slash commands, in order):
+
+```
+/aeo-loop init
+/aeo-loop add-property yourdomain.com --brand="Your Brand"
+/aeo-loop bootstrap yourdomain.com
+```
+
+`bootstrap` is conversational — Codex looks at your site, proposes
+queries and competitors, you edit / approve, and it runs a baseline
+citation check.
+
+Then weekly:
 
 ```
 /aeo-loop weekly yourdomain.com
