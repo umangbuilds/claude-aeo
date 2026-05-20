@@ -43,7 +43,7 @@ This re-runs the command every 7 days as long as the session stays open. Useful 
 
 **When:** You want everything local, you have `claude` CLI installed, and you want unattended runs without depending on a remote scheduler.
 
-The full weekly loop requires an agent (Codex CLI) to orchestrate. The /aeo-loop slash command drives it; headless mode below:
+The full weekly loop requires Claude to orchestrate (the SKILL.md prose is the orchestration). Headless mode:
 
 ```cron
 # crontab -e
@@ -151,7 +151,7 @@ If you want to run a *partial* loop without Claude orchestration — for example
 
 ```cron
 # Daily citation check (no Claude needed — just collects data into SQLite)
-0 8 * * 1-5  python3 /path/to/skills/aeo-loop/scripts/aeo_loop.py status moltpe.com >> ~/aeo-status.log 2>&1
+0 8 * * 1-5  python3 /path/to/.claude/skills/aeo-loop/scripts/aeo_loop.py status moltpe.com >> ~/aeo-status.log 2>&1
 ```
 
 This works for `status`, `citation-check` (if you wire your own run_id management), `list-actions`, `mark-done`. It does NOT cover the analyze/brief/draft steps — those require Claude reasoning over the data. So pure-Python cron is fine for collecting and surfacing, not for the full weekly loop.

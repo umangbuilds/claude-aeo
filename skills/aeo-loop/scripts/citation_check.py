@@ -313,7 +313,7 @@ def fence_untrusted(text: str) -> str:
     Any downstream reader (Claude during analyze, the operator reading the
     report) must treat the content between the delimiters as evidence to
     reason ABOUT, never as instructions to follow. This is the ASI01
-    defence per AGENTS.md "Prompt-injection defense" section.
+    defence per SKILL.md "Prompt injection defence" section.
 
     Breakout protection: if the text itself contains either delimiter
     literal, the delimiters inside the text are escaped before wrapping so

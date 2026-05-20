@@ -1,6 +1,6 @@
 <div align="center">
 
-# aeo-loop (Codex CLI)
+# claude-aeo
 
 ### One command. Your brand in every AI answer.
 
@@ -10,14 +10,14 @@ Track whether ChatGPT, Claude, Perplexity, and Gemini cite you —<br>and get a 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](https://python.org)
-[![Codex CLI](https://img.shields.io/badge/Codex%20CLI-skill-10a37f)](https://github.com/openai/codex)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-skill-7c3aed)](https://claude.ai/code)
 [![Tests](https://img.shields.io/badge/tests-168%20passing-brightgreen)](skills/aeo-loop/tests/)
 [![Made for India](https://img.shields.io/badge/made%20for-India-ff9933)](https://github.com/umangbuilds/claude-aeo#built-for-india)
 [![DhurandharOS](https://img.shields.io/badge/DhurandharOS-module-1a1a2e)](https://github.com/umangbuilds/dhurandhar-os)
 
 <br>
 
-> **Not affiliated with or endorsed by OpenAI or Anthropic.**
+> **Not affiliated with or endorsed by Anthropic.**
 
 </div>
 
@@ -133,20 +133,32 @@ Most operators see measurable citation movement within 6–10 weeks of consisten
 
 ## Install
 
-### Codex CLI (terminal)
+### Fastest — Claude desktop app, Code tab (no terminal needed)
+
+1. Install the [Claude desktop app](https://claude.ai/download)
+2. Open the **Code** tab in the sidebar
+3. Type this in a fresh chat:
+   ```
+   install claude-aeo from github.com/umangbuilds/claude-aeo
+   ```
+4. Click **Allow once** on each permission prompt (4–6 prompts). Claude Code clones the repo, installs the plugin, runs setup.
+5. Restart Claude Code. Open a fresh Code tab. Run:
+   ```
+   /aeo-loop init
+   ```
+
+### CLI (terminal)
 
 ```bash
-git clone https://github.com/umangbuilds/claude-aeo
-cd claude-aeo
-bash codex/setup-codex.sh
+$ claude plugin marketplace add umangbuilds/claude-aeo
 ```
 
-The installer verifies Python 3.10+, stages the `/aeo-loop` slash command into `~/.codex/prompts/`, and scaffolds the config + SQLite store.
+Then inside Claude Code:
 
-Then launch Codex inside the repo so `AGENTS.md` is auto-loaded:
-
-```bash
-codex
+```
+/plugin install claude-aeo@claude-aeo
+/reload-plugins
+/aeo-loop init
 ```
 
 ### Add API keys
@@ -164,21 +176,9 @@ gemini     = ""
 You need at least 2 to run the citation matrix. 4 gives you the full cross-LLM picture.
 API call cost: ~₹40–160 per week depending on how many queries you track.
 
-### Bootstrap your first property
+**Full guide** (Windows, WSL2, key sources, troubleshooting): **[INSTALL.md](INSTALL.md)**
 
-```bash
-python3 skills/aeo-loop/scripts/aeo_loop.py add-property yourdomain.com --brand="Your Brand"
-python3 skills/aeo-loop/scripts/aeo_loop.py bootstrap yourdomain.com
-```
-
-Then inside Codex:
-
-```
-/aeo-loop weekly yourdomain.com
-```
-
-**Full guide:** [codex/INSTALL-CODEX.md](codex/INSTALL-CODEX.md)
-**Operating contract** (what the agent reads): [AGENTS.md](AGENTS.md) + [codex/AGENTS-aeo-loop.md](codex/AGENTS-aeo-loop.md)
+**New to this entirely?** Plain-English walkthrough, no SEO background required: **[GETTING-STARTED.md](skills/aeo-loop/GETTING-STARTED.md)**
 
 ---
 
@@ -199,8 +199,7 @@ Then inside Codex:
 ## Built for India
 
 ```bash
-python3 skills/aeo-loop/scripts/aeo_loop.py add-property yourdomain.com \
-  --brand="Your Brand" --one-liner="What you do" --region india
+/aeo-loop add-property yourdomain.com --brand="Your Brand" --one-liner="What you do" --region india
 ```
 
 `--region india` activates the full India layer:
@@ -219,7 +218,7 @@ If your users are in India, use this. The global defaults are not tuned for Indi
 
 ## Without this vs. with this
 
-| Manual approach | aeo-loop |
+| Manual approach | claude-aeo |
 |---|---|
 | Check each AI chatbot manually, one at a time | One command checks all four |
 | No consistent tracking — you forget what it was last week | SQLite store, week-over-week delta |
@@ -232,7 +231,7 @@ If your users are in India, use this. The global defaults are not tuned for Indi
 
 ## Requirements
 
-- **[Codex CLI](https://github.com/openai/codex)** — OpenAI's terminal agent
+- **Claude Code 2.x+** — [claude.ai/download](https://claude.ai/download)
 - **Python 3.10+** — [python.org](https://python.org)
 - **2+ LLM API keys** — any combination of OpenAI, Anthropic, Perplexity, Gemini
 
@@ -242,24 +241,24 @@ If your users are in India, use this. The global defaults are not tuned for Indi
 
 ```
 claude-aeo/
-├── AGENTS.md                         — Codex auto-loads this for operating rules
-├── README.md                         — this file
-├── codex/
-│   ├── AGENTS-aeo-loop.md            — subcommand surface + 8-step weekly recipe
-│   ├── INSTALL-CODEX.md              — full install guide
-│   ├── prompts/aeo-loop.md           — slash command (staged to ~/.codex/prompts/)
-│   └── setup-codex.sh                — installer
-├── skills/aeo-loop/                  — the weekly loop skill (agent-agnostic core)
-│   ├── scripts/
-│   │   ├── aeo_loop.py               — CLI entry point
-│   │   ├── citation_check.py         — queries all 4 LLMs, stores results
-│   │   ├── store.py                  — SQLite backend
-│   │   ├── action_rank.py            — ranks actions by impact/effort
-│   │   └── browser_assist.py         — opens browser with draft pre-filled
-│   ├── references/                   — weekly step guides, India platform list
-│   ├── assets/templates/             — report.md, draft-NNN.md
-│   └── tests/                        — 168 tests, all green
-└── THIRD_PARTY_LICENSES.md           — attribution
+├── setup.sh                          — first-time install (asks before doing anything)
+├── .claude-plugin/plugin.json        — Claude Code plugin manifest
+├── INSTALL.md                        — full install guide
+├── skills/
+│   ├── aeo-loop/                     — the weekly loop skill
+│   │   ├── SKILL.md                  — skill instructions
+│   │   ├── scripts/
+│   │   │   ├── aeo_loop.py           — CLI entry point
+│   │   │   ├── citation_check.py     — queries all 4 LLMs, stores results
+│   │   │   ├── store.py              — SQLite backend
+│   │   │   ├── action_rank.py        — ranks actions by impact/effort
+│   │   │   └── browser_assist.py     — opens browser with draft pre-filled
+│   │   ├── references/               — weekly step guides, India platform list
+│   │   ├── assets/templates/         — report.md, draft-NNN.md
+│   │   └── tests/                    — 168 tests, all green
+│   └── aeo-orchestrator/
+│       └── SKILL.md                  — natural-language routing
+└── THIRD_PARTY_LICENSES.md           — attribution (required before external distribution)
 ```
 
 ---
@@ -269,7 +268,7 @@ claude-aeo/
 <details>
 <summary><strong>How is this different from standard SEO tools?</strong></summary>
 
-SEO tools (Ahrefs, SEMrush, etc.) optimise for Google's crawler — backlinks, keyword density, page speed. AI search engines don't work that way. They pull from training data and citation patterns, not real-time crawls. aeo-loop targets the evidence base that AI models draw on, which requires different content and different platforms.
+SEO tools (Ahrefs, SEMrush, etc.) optimise for Google's crawler — backlinks, keyword density, page speed. AI search engines don't work that way. They pull from training data and citation patterns, not real-time crawls. claude-aeo targets the evidence base that AI models draw on, which requires different content and different platforms.
 
 </details>
 
@@ -283,7 +282,7 @@ No. Citation rate depends on your content quality, domain authority, and the com
 <details>
 <summary><strong>What does it actually cost per week?</strong></summary>
 
-API calls to 4 LLM services for 5–10 tracked queries: roughly ₹40–160/week depending on query count and which providers you use. The skill itself is free. Your API keys are your own — aeo-loop never touches billing or makes calls outside the weekly run.
+API calls to 4 LLM services for 5–10 tracked queries: roughly ₹40–160/week depending on query count and which providers you use. The skill itself is free. Your API keys are your own — claude-aeo never touches billing or makes calls outside the weekly run.
 
 </details>
 
@@ -295,9 +294,9 @@ Yes. Each property is registered separately. Run `/aeo-loop weekly site1.com` an
 </details>
 
 <details>
-<summary><strong>Does this work with Claude Code instead of Codex?</strong></summary>
+<summary><strong>I'm not technical. Can I still use this?</strong></summary>
 
-This branch is Codex-only. The agent surface (`AGENTS.md`, `codex/`, the slash prompt) is built for OpenAI Codex CLI. The underlying Python core is agent-agnostic — porting back to a Claude plugin is straightforward, but not included here.
+Yes — the desktop app Code tab path requires no terminal, no command line, no coding. You type one sentence, click Allow on a few prompts, and you're done. The weekly run is one command. See [GETTING-STARTED.md](skills/aeo-loop/GETTING-STARTED.md) for a step-by-step guide written for non-technical operators.
 
 </details>
 
@@ -314,9 +313,9 @@ Because AI-generated content posted without human review is how you burn trust w
 
 **[Umang](https://github.com/umangbuilds)** — part of the [DhurandharOS](https://github.com/umangbuilds/dhurandhar-os) stack.
 
-DhurandharOS is an operating system built for founders running products with lean teams. It's a set of agent skills that handle the repeatable work — security review, spec writing, weekly loops — so the operator can stay focused on what only they can do.
+DhurandharOS is an operating system built for founders running products with lean teams. It's a set of Claude Code skills that handle the repeatable work — security review, spec writing, weekly loops — so the operator can stay focused on what only they can do.
 
-aeo-loop is the AEO/SEO module. It handles the weekly cadence of AI visibility so you're not doing it manually, or worse, not doing it at all.
+claude-aeo is the AEO/SEO module. It handles the weekly cadence of AI visibility so you're not doing it manually, or worse, not doing it at all.
 
 Built in India. Built for operators who don't have a marketing team. Built to compound.
 
@@ -330,4 +329,4 @@ Third-party attributions: [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) —
 
 ---
 
-*This project is not affiliated with or endorsed by OpenAI or Anthropic.*
+*This project is not affiliated with or endorsed by Anthropic.*

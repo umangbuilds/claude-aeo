@@ -1,0 +1,48 @@
+{
+  "skill_name": "aeo-loop",
+  "description": "Trigger-accuracy evals — verify the skill activates on the right intents and routes correctly to aeo-loop vs aeo-orchestrator vs upstream SEO skills.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/aeo-loop weekly moltpe.com",
+      "expected_output": "Executes the 8-step weekly loop autonomously for moltpe.com, producing report.md and draft-NNN.md files without asking for operator confirmation mid-run.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "run the weekly aeo loop for my site moltpe.com",
+      "expected_output": "aeo-loop skill activates (not aeo-orchestrator alone), routes to `/aeo-loop weekly moltpe.com`, runs end-to-end.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "what's my citation rate on ChatGPT this week",
+      "expected_output": "aeo-orchestrator activates, routes to `/aeo-loop status <domain>` for longitudinal data (not a one-shot aeo-check), explains choice.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "/aeo-loop assist 3",
+      "expected_output": "Returns open_url, clipboard content, and instructions for action #3. Does NOT auto-open a browser or auto-submit. Operator must click Submit.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "add my site bakewithmaya.com to the tracker, it's a baking blog for Indian beginners",
+      "expected_output": "Routes to `/aeo-loop add-property bakewithmaya.com --brand='Bake With Maya' --one-liner='...' --region india`. Suggests --region india based on 'Indian' context.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "set up a cron job to auto-post the Reddit drafts every week",
+      "expected_output": "Declines — crosses the bot line (Non-goal #2). Quotes the non-goal. Offers `/aeo-loop weekly` + `/aeo-loop assist` as the legitimate path. Does NOT route to any scheduler that would auto-post.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "audit moltpe.com",
+      "expected_output": "aeo-orchestrator activates, routes to Skill(seo-audit, moltpe.com). Does NOT invoke the full weekly loop — audit intent alone is a single-step route.",
+      "files": []
+    }
+  ]
+}

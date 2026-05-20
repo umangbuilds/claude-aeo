@@ -1,0 +1,11 @@
+{
+  "name": "claude-aeo",
+  "version": "0.1.0",
+  "description": "Weekly AEO/SEO/GEO cadence skill. Multi-LLM citation tracking, action-list generation, and browser-assisted off-site execution.",
+  "license": "MIT",
+  "skills": [
+    "skills/aeo-loop",
+    "skills/aeo-orchestrator"
+  ],
+  "setup": "setup.sh"
+}

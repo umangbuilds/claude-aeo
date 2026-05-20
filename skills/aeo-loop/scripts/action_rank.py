@@ -1,7 +1,7 @@
 """Action ranking algorithm for aeo-loop.
 
 The weekly loop generates candidate actions (Claude does the generation via
-the 8-step loop, see codex/AGENTS-aeo-loop.md). This module assigns a deterministic score and returns the top N.
+SKILL.md). This module assigns a deterministic score and returns the top N.
 
 Score = predicted_impact / max(effort_minutes, MIN_EFFORT). Higher is better.
 

@@ -16,7 +16,7 @@ reviews and clicks Submit.
 Set on `add-property` when the brand's primary buyers are in India:
 
 ```bash
-python3 skills/aeo-loop/scripts/aeo_loop.py add-property moltpe.com \
+python3 .claude/skills/aeo-loop/scripts/aeo_loop.py add-property moltpe.com \
   --brand "MoltPe" --one-liner "agentic payments" --category fintech \
   --region india
 ```
