@@ -282,6 +282,7 @@ Your data (`~/.config/aeo-loop/keys.toml`, `~/.local/share/aeo-loop/store.db`, a
 | `"property not found"` | Run `/aeo-loop add-property yourdomain.com` first. |
 | `/aeo-loop init` runs but keys.toml shows no keys | Open the file and paste your keys manually — see Step 2. |
 | `python3: command not found` | Install Python 3.10+ from python.org. |
+| `claude plugin marketplace add` fails or is not found | Use the manual install instead — see the [Manual install](#manual-install-if-marketplace-add-fails) section above. |
 
 Full beginner guide with screenshots and plain-English explanations: [skills/aeo-loop/GETTING-STARTED.md](skills/aeo-loop/GETTING-STARTED.md).
 

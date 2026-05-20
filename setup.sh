@@ -111,7 +111,8 @@ if [ "$INSTALL_SEO" = "true" ]; then
   if [ -z "$SEO_SOURCE" ]; then
     echo ""
     echo "  Could not auto-detect the claude-seo install source from plugin.json."
-    read -r -p "  Enter the claude-seo install source (repo/path/URL): " SEO_SOURCE
+    echo "  Example: github.com/umangbuilds/claude-seo  or  ~/.claude/plugins/claude-seo"
+    read -r -p "  Enter the claude-seo install source (repo/path/URL), or press Enter to skip: " SEO_SOURCE
     if [ -z "$SEO_SOURCE" ]; then
       print_warn "No source provided. Skipping claude-seo install."
       INSTALL_SEO=false
