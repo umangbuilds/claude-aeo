@@ -1,7 +1,7 @@
 # Weekly loop — step-by-step recipes
 
 Detailed bash recipes for each of the 8 steps in `/aeo-loop weekly <domain>`.
-Read this file when executing a weekly run. The SKILL.md overview covers the "what"; this file covers the "how" at the command level.
+Read this file when executing a weekly run. `AGENTS.md` (repo root) and `codex/AGENTS-aeo-loop.md` cover the "what"; this file covers the "how" at the command level.
 
 ---
 
@@ -17,21 +17,23 @@ RUN_ID=$(python3 scripts/aeo_loop.py --json start-run <domain> --run-type weekly
 
 ---
 
-## Step 1 — Audit (delegate, never write your own audit logic)
+## Step 1 — Audit (inline reasoning over fetched pages)
 
-```
-Skill(seo-audit, <domain>)            # parallel sub-agent audit
-Skill(seo-geo, <domain>)              # AI Overviews / GEO readiness
-```
-
-If finer-grain page fetching is needed:
+Fetch and reason inline — no audit sub-skill exists in the Codex variant:
 
 ```bash
-python3 .claude/skills/claude-seo/scripts/fetch_page.py <url> --json
-python3 .claude/skills/claude-seo/scripts/parse_html.py <html-file> --json
+# Technical: headers, robots, sitemap
+curl -sI "https://<domain>" > /tmp/aeo-headers.txt
+curl -s  "https://<domain>/robots.txt" > /tmp/aeo-robots.txt
+curl -s  "https://<domain>/sitemap.xml" > /tmp/aeo-sitemap.xml
+
+# Content + schema: fetch homepage + 3-5 top pages via WebFetch or curl,
+# grep for <script type="application/ld+json"> blocks, validate inline.
 ```
 
-Do NOT write fresh fetch/parse code in `aeo-loop`. Reuse upstream.
+Reason inline against `references/llm-citation-rubric.md` for citation
+readiness signals. GEO readiness checks: AI-readable headings, FAQ
+schema, robots allows GPTBot / PerplexityBot / ClaudeBot / Google-Extended.
 
 Persist findings:
 
@@ -44,19 +46,19 @@ SQL
 
 ---
 
-## Step 2 — Discover (delegate, never reimplement)
+## Step 2 — Discover (WebFetch PAA / Reddit / Quora; inline keyword surface)
 
-```
-Skill(enhance-aeo, <domain> <brand> <topics>)
-Skill(seo-cluster, <seed-keyword>)
-```
-
-Keyword surface mining:
+Pull candidate queries inline:
 
 ```bash
-python3 .claude/skills/claude-seo/scripts/keyword_planner.py --json
-python3 .claude/skills/claude-seo/scripts/nlp_analyze.py <text> --json
+# Google PAA — WebFetch the SERP for each seed query, extract "People also ask".
+# Reddit  — WebFetch https://www.reddit.com/search/?q=<query>&sort=top
+# Quora   — WebFetch https://www.quora.com/search?q=<query>
 ```
+
+Keyword surface mining is inline reasoning — group discovered queries
+into clusters by intent (informational / commercial / navigational) and
+score by competitor-citation gap from the citation matrix.
 
 Persist discovered queries:
 
