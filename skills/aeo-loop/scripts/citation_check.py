@@ -240,10 +240,13 @@ class GeminiAdapter:
     def query(self, prompt: str) -> str:
         url = (
             f"https://generativelanguage.googleapis.com/v1beta/models/"
-            f"{self.model}:generateContent?key={self.api_key}"
+            f"{self.model}:generateContent"
         )
         body = {"contents": [{"parts": [{"text": prompt}]}]}
-        headers = {"Content-Type": "application/json"}
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_key}",
+        }
         resp = _http_post_json(url, headers, body)
         candidates = resp.get("candidates", [])
         if not candidates:
