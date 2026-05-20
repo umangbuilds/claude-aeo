@@ -59,6 +59,7 @@ class Store:
         self.conn = sqlite3.connect(self.path)
         self.conn.row_factory = sqlite3.Row
         self.conn.execute("PRAGMA foreign_keys = ON;")
+        self.apply_schema()
 
     def close(self) -> None:
         self.conn.close()

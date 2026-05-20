@@ -63,7 +63,6 @@ def _emit(data, as_json: bool, plain_text: Optional[str] = None):
 def cmd_init(args):
     path = cfg.write_template()
     s = store_mod.Store(args.db)
-    s.apply_schema()
     caps = cfg.detect_capabilities()
     schema_v = s.current_schema_version()
     s.close()
@@ -92,7 +91,6 @@ def cmd_init(args):
 
 def cmd_add_property(args):
     s = store_mod.Store(args.db)
-    s.apply_schema()
     pid = s.add_property(
         domain=args.domain,
         brand_name=args.brand,
@@ -112,7 +110,6 @@ def cmd_add_property(args):
 
 def cmd_add_query(args):
     s = store_mod.Store(args.db)
-    s.apply_schema()
     prop = s.get_property_by_domain(args.domain)
     if not prop:
         s.close()
@@ -126,7 +123,6 @@ def cmd_add_query(args):
 
 def cmd_add_competitor(args):
     s = store_mod.Store(args.db)
-    s.apply_schema()
     prop = s.get_property_by_domain(args.domain)
     if not prop:
         s.close()
@@ -141,7 +137,6 @@ def cmd_add_competitor(args):
 
 def cmd_list_properties(args):
     s = store_mod.Store(args.db)
-    s.apply_schema()
     rows = s.list_properties()
     s.close()
     if args.json:
@@ -156,7 +151,6 @@ def cmd_list_properties(args):
 
 def cmd_list_queries(args):
     s = store_mod.Store(args.db)
-    s.apply_schema()
     prop = s.get_property_by_domain(args.domain)
     if not prop:
         s.close()
@@ -174,7 +168,6 @@ def cmd_list_queries(args):
 
 def cmd_start_run(args):
     s = store_mod.Store(args.db)
-    s.apply_schema()
     prop = s.get_property_by_domain(args.domain)
     if not prop:
         s.close()
@@ -189,7 +182,6 @@ def cmd_start_run(args):
 def cmd_citation_check(args):
     """Run citation matrix. Pulls queries + brand identity from store."""
     s = store_mod.Store(args.db)
-    s.apply_schema()
     prop = s.get_property_by_domain(args.domain)
     if not prop:
         s.close()
@@ -288,7 +280,6 @@ def cmd_record_actions(args):
     """Read a JSON file with candidate actions, score them, persist top N."""
     payload = json.loads(Path(args.actions_file).read_text())
     s = store_mod.Store(args.db)
-    s.apply_schema()
     prop = s.get_property_by_domain(args.domain)
     if not prop:
         s.close()
@@ -328,7 +319,6 @@ def cmd_record_actions(args):
 
 def cmd_list_actions(args):
     s = store_mod.Store(args.db)
-    s.apply_schema()
     prop = s.get_property_by_domain(args.domain)
     if not prop:
         s.close()
@@ -348,7 +338,6 @@ def cmd_list_actions(args):
 def cmd_assist(args):
     """Look up an action, print the browser-assist payload."""
     s = store_mod.Store(args.db)
-    s.apply_schema()
     row = s.conn.execute(
         "SELECT * FROM actions WHERE id = ?", (args.action_id,)
     ).fetchone()
@@ -426,7 +415,6 @@ def cmd_assist(args):
 
 def cmd_mark_done(args):
     s = store_mod.Store(args.db)
-    s.apply_schema()
     s.update_action_status(args.action_id, args.status, cited_on=args.cited_on)
     s.close()
     _emit({"action_id": args.action_id, "status": args.status}, args.json,
@@ -436,7 +424,6 @@ def cmd_mark_done(args):
 
 def cmd_finish_run(args):
     s = store_mod.Store(args.db)
-    s.apply_schema()
     s.finish_run(args.run_id, status=args.status)
     s.close()
     _emit({"run_id": args.run_id, "status": args.status}, args.json,
@@ -446,7 +433,6 @@ def cmd_finish_run(args):
 
 def cmd_status(args):
     s = store_mod.Store(args.db)
-    s.apply_schema()
     prop = s.get_property_by_domain(args.domain)
     if not prop:
         s.close()
@@ -522,16 +508,12 @@ def build_parser():
     s = sub.add_parser("start-run")
     s.add_argument("domain")
     s.add_argument("--run-type", default="weekly", choices=["bootstrap", "weekly", "adhoc"])
-    s.set_defaults(func=cmd_start_run, run_type="weekly")
-    s = sub.choices["start-run"]
-    # Reattach in case argparse default lost it
-    for action in s._actions:
-        if action.dest == "run_type":
-            action.required = False
+    s.set_defaults(func=cmd_start_run)
 
-    # Friendly aliases: `/aeo-loop bootstrap domain` and `/aeo-loop weekly domain`
-    for _alias, _rtype in (("bootstrap", "bootstrap"), ("weekly", "weekly")):
-        s = sub.add_parser(_alias)
+    # Top-level aliases so `/aeo-loop bootstrap domain` and
+    # `/aeo-loop weekly domain` work directly alongside start-run --run-type.
+    for _rtype in ("bootstrap", "weekly"):
+        s = sub.add_parser(_rtype)
         s.add_argument("domain")
         s.set_defaults(func=cmd_start_run, run_type=_rtype)
 

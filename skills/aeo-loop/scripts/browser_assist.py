@@ -49,20 +49,6 @@ class BrowserAssist:
     platform: str
 
 
-SUPPORTED_PLATFORMS = (
-    "reddit",
-    "wikipedia",
-    "wikipedia_talk",
-    "twitter",
-    "linkedin",
-    "hacker_news",
-    "email",
-    "generic_form",
-    "quora_india",
-    "justdial",
-    "indiamart",
-    "mouthshut",
-)
 
 
 # Indian publications relevant to outreach drafts. Used by the action drafter
@@ -323,6 +309,9 @@ _BUILDERS = {
     "indiamart": indiamart,
     "mouthshut": mouthshut,
 }
+
+# Single source of truth — derived from _BUILDERS so it never drifts.
+SUPPORTED_PLATFORMS = tuple(_BUILDERS)
 
 
 def build(action_type: str, **kwargs) -> BrowserAssist:

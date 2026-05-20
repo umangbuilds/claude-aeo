@@ -66,7 +66,7 @@ def new_platform(listing_url: str, draft: str) -> None:
     print("Draft copied to clipboard. Paste into the form and click Submit.")
 ```
 
-Register it in the `_PLATFORM_MAP` dict if routing by platform name from the action store.
+Register it in the `_BUILDERS` dict (same file) so the `build()` dispatcher can find it. `SUPPORTED_PLATFORMS` is derived from `_BUILDERS` automatically — no separate update needed.
 
 ---
 
