@@ -529,6 +529,12 @@ def build_parser():
         if action.dest == "run_type":
             action.required = False
 
+    # Friendly aliases: `/aeo-loop bootstrap domain` and `/aeo-loop weekly domain`
+    for _alias, _rtype in (("bootstrap", "bootstrap"), ("weekly", "weekly")):
+        s = sub.add_parser(_alias)
+        s.add_argument("domain")
+        s.set_defaults(func=cmd_start_run, run_type=_rtype)
+
     s = sub.add_parser("citation-check")
     s.add_argument("domain")
     s.add_argument("--run-id", type=int, required=True)
