@@ -41,37 +41,25 @@ $EDITOR ~/.config/aeo-loop/keys.toml
 
 Fill in at least 2 of: `openai`, `anthropic`, `perplexity`, `gemini`.
 
-## Register your property and bootstrap
-
-Launch Codex from the repo so `AGENTS.md` is auto-loaded:
+## Register your property
 
 ```bash
-codex
+python3 skills/aeo-loop/scripts/aeo_loop.py add-property yourdomain.com \
+  --brand="Your Brand" --region=global
 ```
 
-Then inside Codex, three slash commands:
+Add `--region india` if your audience is primarily Indian — that enables
+geo-pinned LLM prompts, INR-aware pricing, Indian platforms in
+browser-assist, and a +15% region-match boost.
 
+## Bootstrap
+
+```bash
+python3 skills/aeo-loop/scripts/aeo_loop.py bootstrap yourdomain.com
 ```
-/aeo-loop init
-/aeo-loop add-property yourdomain.com --brand="Your Brand" --region=global
-/aeo-loop bootstrap yourdomain.com
-```
 
-Add `--region india` to `add-property` if your audience is primarily
-Indian — that enables geo-pinned LLM prompts, INR-aware pricing, Indian
-platforms in browser-assist, and a +15% region-match boost.
-
-`bootstrap` is conversational. Codex looks at your homepage, proposes
-queries and competitors, you edit / approve, and it runs the baseline
-citation check.
-
-> **Note:** `bootstrap` and `weekly` are slash commands driven by the
-> agent reading `codex/AGENTS-aeo-loop.md`. They are not Python
-> subcommands. The Python CLI (`aeo_loop.py`) exposes only the
-> deterministic primitives: `init`, `add-property`, `add-query`,
-> `add-competitor`, `start-run`, `citation-check`, `record-actions`,
-> `finish-run`, `assist`, `mark-done`, `status`, and the `list-*`
-> commands.
+Interactively prompts for queries, competitors, and brand framing, then
+runs a baseline citation check.
 
 ## Run the weekly loop from Codex
 

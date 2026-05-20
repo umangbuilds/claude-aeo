@@ -102,15 +102,13 @@ Next steps:
        \$EDITOR ~/.config/aeo-loop/keys.toml
      Fill in at least 2 of: openai, anthropic, perplexity, gemini
 
-  2. Launch Codex from this repo:
-       cd $REPO_ROOT && codex
+  2. Register a property:
+       $PYTHON $REPO_ROOT/skills/aeo-loop/scripts/aeo_loop.py add-property yourdomain.com --brand="Your Brand"
 
-  3. Inside Codex, run three slash commands in order:
-       /aeo-loop init
-       /aeo-loop add-property yourdomain.com --brand="Your Brand"
-       /aeo-loop bootstrap yourdomain.com
+  3. Bootstrap (queries + competitors + baseline):
+       $PYTHON $REPO_ROOT/skills/aeo-loop/scripts/aeo_loop.py bootstrap yourdomain.com
 
-  4. Then weekly:
+  4. From inside Codex CLI, run the autonomous weekly loop:
        /aeo-loop weekly yourdomain.com
 
   Full Codex guide: codex/INSTALL-CODEX.md
