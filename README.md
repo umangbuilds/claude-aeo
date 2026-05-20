@@ -26,18 +26,39 @@ The skill never auto-posts. You review every draft and click Submit yourself.
 
 ## Install
 
+Full guide with Windows, troubleshooting, and step-by-step instructions: **[INSTALL.md](INSTALL.md)**
+
+### Quickest path — Claude desktop app, Code tab (no terminal)
+
+1. Install the **Claude desktop app** from [claude.ai/download](https://claude.ai/download).
+2. Open the app and click the **Code** tab in the sidebar.
+3. In a fresh Code tab chat, type:
+   ```
+   install claude-aeo from github.com/umangbuilds/claude-aeo
+   ```
+4. Click **Allow once** on each permission prompt (typically 4–6). Claude Code clones the repo, installs the plugin, and runs `setup.sh` automatically.
+5. Restart Claude Code, open a fresh Code tab, and run:
+   ```
+   /aeo-loop init
+   ```
+
+### CLI path (terminal)
+
 ```bash
-bash setup.sh
+$ claude plugin marketplace add umangbuilds/claude-aeo
 ```
 
-The setup script will:
-1. Check for Claude Code CLI and Python 3.10+
-2. Explain why `claude-seo` (the forked SEO skill collection) is needed, and ask your permission before installing it
-3. Install `claude-seo` via `claude plugin install` if you confirm
-4. Verify the aeo-loop CLI is working
-5. Print next steps
+Then inside a Claude Code session:
 
-After setup, add your LLM API keys to `~/.config/aeo-loop/keys.toml` (created automatically during setup). You need at least 2 of: OpenAI, Anthropic, Perplexity, Gemini.
+```
+/plugin install claude-aeo@claude-aeo
+/reload-plugins
+/aeo-loop init
+```
+
+### After install — add API keys
+
+Open `~/.config/aeo-loop/keys.toml` and paste at least 2 of: OpenAI, Anthropic, Perplexity, Gemini. See [INSTALL.md](INSTALL.md) for where to get each key.
 
 **New to this? Start here:** `skills/aeo-loop/GETTING-STARTED.md` — plain English guide, no SEO or coding background needed.
 
